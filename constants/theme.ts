@@ -18,9 +18,12 @@ export interface ThemePalette {
   background: string; // Fallback solid color
   backgroundGradient: GradientColors;
   tint: string;
-  icon: string;
   tabIconDefault: string;
   tabIconSelected: string;
+  tabBar: string;
+  modal: string;
+  textbox: string;
+  button: string;
 }
 
 export interface TypographyStyle {
@@ -88,32 +91,35 @@ const LightModePalette: ThemePalette = {
   text: "#444444",
   background: "#DEFFCE",
   backgroundGradient: {
-    start: "#DEFFCE", // Pure white
-    end: "#589D58", // Very light blue-gray
-    angle: 270, // Top to bottom
+    start: "#DEFFCE",
+    end: "#589D58",
+    angle: 270,
   },
-  tint: "#020202",
-  icon: "#070707",
-  tabIconDefault: "#687076",
-  tabIconSelected: "#232423",
+  tint: "#1e361e",
+  tabIconDefault: "#8f8f8f",
+  tabIconSelected: "#213221",
+  tabBar: "#FFFFFFA6",
+  modal: "#ffffffdc",
+  textbox: "#ffffff",
+  button: "#bdcbbd",
 };
 
 const DarkModePalette: ThemePalette = {
   text: "#D4EEDB",
   background: "#2B3525",
   backgroundGradient: {
-    start: "#2B3525", // Pure white
-    end: "#0E190E", // Very light blue-gray
-    angle: 270, // Top to bottom
+    start: "#2B3525",
+    end: "#0E190E",
+    angle: 270,
   },
   tint: "#0a7ea4",
-  icon: "#687076",
-  tabIconDefault: "#687076",
-  tabIconSelected: "#0a7ea4",
+  tabIconDefault: "#607260",
+  tabIconSelected: "#141d14",
+  tabBar: "#d4eedbad",
+  modal: "#d4eedbad",
+  textbox: "#262c28",
+  button: "#57625aad",
 };
-
-// const tintColorLight = "#0a7ea4";
-// const tintColorDark = "#fff";
 
 export function getThemePalette(colorMode: ThemeMode): ThemePalette {
   return colorMode === "light" ? LightModePalette : DarkModePalette;
