@@ -13,11 +13,12 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: palette.tabIconSelected,
+        tabBarInactiveTintColor: palette.tabIconDefault,
         headerShown: false,
         tabBarButton: HapticTab,
         tabBarShowLabel: false,
         tabBarStyle: {
-          backgroundColor: colorScheme === "light" ? "#FFFFFFA6" : "#0E190E",
+          backgroundColor: palette.tabBar,
           backdropFilter: "blur(20px)",
           borderTopWidth: 1,
           borderTopColor: colorScheme === "light" ? "#FFFFFF80" : "#14141E99",
@@ -37,11 +38,7 @@ export default function TabLayout() {
         options={{
           title: "Home",
           tabBarIcon: ({ color }) => (
-            <IconSymbol
-              size={28}
-              name="house.fill"
-              color={palette.tabIconDefault}
-            />
+            <IconSymbol size={28} name="house.fill" color={color} />
           ),
         }}
       />
@@ -50,11 +47,7 @@ export default function TabLayout() {
         options={{
           title: "Plantas",
           tabBarIcon: ({ color }) => (
-            <IconSymbol
-              size={28}
-              name="paperplane.fill"
-              color={palette.tabIconDefault}
-            />
+            <IconSymbol size={28} name="paperplane.fill" color={color} />
           ),
         }}
       />
@@ -63,11 +56,7 @@ export default function TabLayout() {
         options={{
           title: "Mapa",
           tabBarIcon: ({ color }) => (
-            <IconSymbol
-              size={28}
-              name="paperplane.fill"
-              color={palette.tabIconDefault}
-            />
+            <IconSymbol size={28} name="paperplane.fill" color={color} />
           ),
         }}
       />
