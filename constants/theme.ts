@@ -15,6 +15,7 @@ export interface GradientColors {
 
 export interface ThemePalette {
   text: string;
+  text2: string;
   background: string; // Fallback solid color
   backgroundGradient: GradientColors;
   tint: string;
@@ -24,6 +25,7 @@ export interface ThemePalette {
   modal: string;
   textbox: string;
   button: string;
+  placeholderText: string;
 }
 
 export interface TypographyStyle {
@@ -89,6 +91,7 @@ export const Typography: Record<string, TypographyStyle> = {
 
 const LightModePalette: ThemePalette = {
   text: "#444444",
+  text2: "#444444",
   background: "#DEFFCE",
   backgroundGradient: {
     start: "#DEFFCE",
@@ -102,10 +105,12 @@ const LightModePalette: ThemePalette = {
   modal: "#ffffffdc",
   textbox: "#ffffff",
   button: "#bdcbbd",
+  placeholderText: "#757272a6",
 };
 
 const DarkModePalette: ThemePalette = {
   text: "#D4EEDB",
+  text2: "#141d14",
   background: "#2B3525",
   backgroundGradient: {
     start: "#2B3525",
@@ -116,9 +121,10 @@ const DarkModePalette: ThemePalette = {
   tabIconDefault: "#607260",
   tabIconSelected: "#141d14",
   tabBar: "#d4eedbad",
-  modal: "#d4eedbad",
-  textbox: "#262c28",
+  modal: "#101210",
+  textbox: "#d4eedbad",
   button: "#57625aad",
+  placeholderText: "#4c594c",
 };
 
 export function getThemePalette(colorMode: ThemeMode): ThemePalette {

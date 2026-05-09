@@ -1,19 +1,13 @@
-import { Link } from "@react-navigation/native";
-import { Image, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
-// Define the shape of the props this component expects
-interface PlantCardProps {
-  imageUrl: string;
+interface PlantCard {
   plantId: number;
 }
 
-// Destructure 'species' from the props object
-export function PlantCard({ imageUrl, plantId }: PlantCardProps) {
+export function PlantCard({ plantId }: PlantCard) {
   return (
     <View style={styles.cardContainer}>
-      <Link screen="plant" params={{ plantId: plantId }}>
-        <Image source={{ uri: imageUrl }} style={styles.displayImage} />
-      </Link>
+      {/* <Image source={{ uri: imageUrl }} style={styles.displayImage} /> */}
     </View>
   );
 }

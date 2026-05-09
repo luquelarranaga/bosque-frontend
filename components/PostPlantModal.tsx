@@ -62,27 +62,38 @@ export function PostPlantModal({ setModalVisible }: PostPlantModalProp) {
             X
           </Text>
         </Pressable>
-        <TextInput
-          style={[styles.input, { backgroundColor: palette.textbox }]}
-          onChangeText={setSpecies}
-          value={species}
-          placeholder="especie"
-        />
-        <TextInput
-          style={[styles.input, { backgroundColor: palette.textbox }]}
-          onChangeText={setCoordinates}
-          value={coordinates}
-          placeholder="coordinados"
-        />
+
         <TextInput
           style={[
             styles.input,
+            { backgroundColor: palette.textbox, color: palette.text2 },
+          ]}
+          onChangeText={setSpecies}
+          value={species}
+          placeholder="especie"
+          placeholderTextColor={palette.placeholderText}
+        />
+
+        <TextInput
+          style={[
+            styles.input,
+            { backgroundColor: palette.textbox, color: palette.text2 },
+          ]}
+          onChangeText={setCoordinates}
+          value={coordinates}
+          placeholder="coordinados"
+          placeholderTextColor={palette.placeholderText}
+        />
+
+        <TextInput
+          style={[
             styles.multiline,
-            { backgroundColor: palette.textbox },
+            { backgroundColor: palette.textbox, color: palette.text2 },
           ]}
           onChangeText={setBody}
           value={body}
           placeholder="descripcion"
+          placeholderTextColor={palette.placeholderText}
           multiline
           numberOfLines={4}
         />
@@ -124,11 +135,11 @@ const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
     justifyContent: "center",
+    alignItems: "center",
   },
   modal: {
     alignItems: "center",
-    width: 300,
-    // height: 370,
+    width: "85%",
     margin: 50,
     borderRadius: 5,
     paddingTop: 10,
@@ -139,10 +150,17 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
     margin: 5,
     borderRadius: 5,
-    padding: 2,
+    paddingHorizontal: 10,
+    paddingVertical: 12,
   },
   multiline: {
     height: 170,
+    width: "90%",
+    fontStyle: "italic",
+    margin: 5,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
   },
   imagePickerContainer: {
     flexDirection: "row",
