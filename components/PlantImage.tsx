@@ -9,7 +9,7 @@ interface PlantImageProps {
 export function PlantImage({ imageUrl, plantId }: PlantImageProps) {
   return (
     <View style={styles.cardContainer}>
-      <Link screen="plant" params={{ plantId: plantId }}>
+      <Link screen="plant" params={{ plantId }}>
         <Image source={{ uri: imageUrl }} style={styles.displayImage} />
       </Link>
     </View>
