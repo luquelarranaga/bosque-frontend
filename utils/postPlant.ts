@@ -7,7 +7,7 @@ interface PlantPayload {
   images: string[];
 }
 
-export const submitPlantData = async (data: PlantPayload) => {
+export const postPlant = async (data: PlantPayload) => {
   try {
     const uploadPromises = data.images.map(async (imageUri) => {
       const formData = new FormData();
