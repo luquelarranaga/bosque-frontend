@@ -19,6 +19,7 @@ export interface ThemePalette {
   background: string; // Fallback solid color
   backgroundGradient: GradientColors;
   tint: string;
+  tint2: string;
   tabIconDefault: string;
   tabIconSelected: string;
   tabBar: string;
@@ -91,7 +92,7 @@ export const Typography: Record<string, TypographyStyle> = {
 
 const LightModePalette: ThemePalette = {
   text: "#444444",
-  text2: "#444444",
+  text2: "#f3ffef",
   background: "#DEFFCE",
   backgroundGradient: {
     start: "#DEFFCE",
@@ -99,6 +100,7 @@ const LightModePalette: ThemePalette = {
     angle: 270,
   },
   tint: "#1e361e",
+  tint2: "#426042",
   tabIconDefault: "#8f8f8f",
   tabIconSelected: "#213221",
   tabBar: "#FFFFFFA6",
@@ -118,6 +120,7 @@ const DarkModePalette: ThemePalette = {
     angle: 270,
   },
   tint: "#0a7ea4",
+  tint2: "#0f4759",
   tabIconDefault: "#607260",
   tabIconSelected: "#141d14",
   tabBar: "#d4eedbad",
