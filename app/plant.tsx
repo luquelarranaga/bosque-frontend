@@ -1,10 +1,15 @@
-import { StyleSheet } from "react-native";
+import { Pressable, StyleSheet } from "react-native";
 
+import { DeletePlantModal } from "@/components/DeletePlantModal";
 import { GradientBackground } from "@/components/GradientBackground";
+import LogsView from "@/components/LogsView";
+import { PostLogModal } from "@/components/PostLogModal";
+import { IconSymbol } from "@/components/ui/icon-symbol";
+import { useTheme } from "@/hooks/use-theme";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Image, View } from "react-native";
+import { Image, Modal, Text, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 interface Plant {
@@ -17,22 +22,26 @@ interface Plant {
 interface PlantImage {
   plant_id: number;
   species: string;
-  date_taken: string;
+  image_date: string;
   img_url: string;
 }
 
 interface PlantLogs {
   log_id: number;
   plant_id: number;
-  created_at: string;
+  log_date: string;
   body: string;
 }
 
 type RootStackParamList = {
-  plant: { plantId: number };
+  plant: {
+    plantId: number;
+  };
 };
 
 export default function Plant() {
+  const { palette } = useTheme();
+
   const route = useRoute<RouteProp<RootStackParamList, "plant">>();
 
   const { plantId } = route.params;
@@ -40,6 +49,8 @@ export default function Plant() {
   const [plant, setPlant] = useState<Plant | null>(null);
   const [images, setImages] = useState<PlantImage[]>([]);
   const [logs, setLogs] = useState<PlantLogs[]>([]);
+  const [postLogVisible, setPostLogVisible] = useState<boolean>(false);
+  const [deletePlantVisible, setDeletePlantVisible] = useState<boolean>(false);
 
   useEffect(() => {
     async function getPlant() {
@@ -67,17 +78,66 @@ export default function Plant() {
       }
     }
     getPlant();
-  }, []);
+  }, [logs]);
 
   if (images && plant) {
     return (
       <SafeAreaProvider>
         <GradientBackground>
+          <Pressable
+            onPress={() => {
+              setDeletePlantVisible(true);
+            }}
+            style={styles.deleteButton}
+          >
+            <IconSymbol size={28} name="bin.xmark" color="white" />
+          </Pressable>
+
           <View style={styles.safeArea}>
             <Image
+              key={images[0].image_date}
               source={{ uri: images[0].img_url }}
               style={styles.plantImage}
             />
+
+            <LogsView logs={logs} setLogs={setLogs} />
+            <Pressable
+              onPress={() => {
+                setPostLogVisible(true);
+              }}
+              style={{ position: "absolute", bottom: "4%", left: "65%" }}
+            >
+              <Text
+                style={[
+                  styles.button,
+                  { backgroundColor: palette.button, color: palette.text },
+                ]}
+              >
+                +
+              </Text>
+            </Pressable>
+            <Modal
+              animationType="slide"
+              visible={postLogVisible}
+              transparent={true}
+            >
+              <PostLogModal
+                setPostLogVisible={setPostLogVisible}
+                plantId={plant.plant_id}
+                setLogs={setLogs}
+                logs={logs}
+              />
+            </Modal>
+            <Modal
+              animationType="slide"
+              visible={deletePlantVisible}
+              transparent={true}
+            >
+              <DeletePlantModal
+                setDeletePlantVisible={setDeletePlantVisible}
+                plantId={plant.plant_id}
+              />
+            </Modal>
           </View>
         </GradientBackground>
       </SafeAreaProvider>
@@ -91,16 +151,38 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     alignItems: "center",
     backgroundColor: "#574f4941",
-    width: 350,
+    width: "90%",
     height: 100,
-    marginTop: 30,
+    marginTop: "2.5%",
     borderRadius: 8,
   },
   plantImage: {
     resizeMode: "cover",
-    width: 300,
-    height: 300,
+    width: "90%",
+    aspectRatio: 1,
     borderRadius: 8,
-    marginTop: 25,
+    marginTop: "2.5%",
+  },
+  button: {
+    paddingHorizontal: "10%",
+    paddingVertical: "0.5%",
+    borderRadius: 10,
+    fontSize: 40,
+  },
+  deleteButton: {
+    backgroundColor: "#a41b1b",
+    borderRadius: 25,
+    width: 60,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    margin: 5,
+    alignSelf: "flex-end",
+    marginRight: "5%",
+    marginTop: "2.5%",
+  },
+  deleteText: {
+    color: "white",
+    textAlign: "center",
   },
 });
