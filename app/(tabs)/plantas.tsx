@@ -1,7 +1,8 @@
 import { GradientBackground } from "@/components/GradientBackground";
 import { PlantImage } from "@/components/PlantImage";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useFocusEffect } from "expo-router";
+import React, { useCallback, useState } from "react";
 import { FlatList, StyleSheet, TextInput, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
@@ -18,24 +19,26 @@ export default function Plantas() {
   const [plantImages, setPlantImages] = useState<DisplayImage[]>([]);
   const [search, setSearch] = useState("");
 
-  useEffect(() => {
-    async function getPlantImages() {
-      try {
-        const { data } = await axios<{ displayImages: DisplayImage[] }>(
-          "https://bosque-comestible-backend.onrender.com/api/images/display_images",
-        );
-        const { displayImages } = data;
-        setPlantImages(displayImages);
-        arrayholder.current = data.displayImages;
-      } catch (err) {
-        console.log(err);
+  useFocusEffect(
+    useCallback(() => {
+      async function getPlantImages() {
+        try {
+          const { data } = await axios<{ displayImages: DisplayImage[] }>(
+            "https://bosque-comestible-backend.onrender.com/api/images/display_images",
+          );
+          const { displayImages } = data;
+          setPlantImages(displayImages);
+          arrayholder.current = data.displayImages;
+        } catch (err) {
+          console.log(err);
+        }
       }
-    }
-    getPlantImages();
-  }, []);
+      getPlantImages();
+    }, []),
+  );
 
   const handleSearch = (text: string) => {
-    setSearch(text); // Update input value immediately
+    setSearch(text);
     const updatedData = arrayholder.current.filter((item) => {
       return item.species.toUpperCase().includes(text.toUpperCase());
     });
