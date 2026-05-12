@@ -1,6 +1,6 @@
 import { ImagePickerList } from "@/components/ImagePickerList";
 import { useTheme } from "@/hooks/use-theme";
-import { submitPlantData } from "@/utils/api";
+import { postPlant } from "@/utils/postPlant";
 import React, { useState } from "react";
 import {
   ActivityIndicator,
@@ -35,7 +35,7 @@ export function PostPlantModal({ setModalVisible }: PostPlantModalProp) {
 
     setIsSubmitting(true);
     try {
-      await submitPlantData({ species, coordinates, body, images });
+      await postPlant({ species, coordinates, body, images });
       alert("¡Planta guardada con éxito!");
     } catch (error) {
       alert("Hubo un error al guardar la planta.");
@@ -43,6 +43,13 @@ export function PostPlantModal({ setModalVisible }: PostPlantModalProp) {
       setIsSubmitting(false);
     }
   };
+
+  //self closing component
+  //contentContainerSTyle={}
+  //data=log
+  //numColumns={1} (is this necessary?)
+  //keyExtractor = {(item) => item.log_id.toString()}
+  //rendeerItem={({item}) => (INCLUDE EVERYTHING IN HERE !! )}
 
   return (
     <View style={styles.centeredView}>
@@ -66,7 +73,7 @@ export function PostPlantModal({ setModalVisible }: PostPlantModalProp) {
         <TextInput
           style={[
             styles.input,
-            { backgroundColor: palette.textbox, color: palette.text2 },
+            { backgroundColor: palette.textbox, color: palette.text },
           ]}
           onChangeText={setSpecies}
           value={species}
@@ -77,7 +84,7 @@ export function PostPlantModal({ setModalVisible }: PostPlantModalProp) {
         <TextInput
           style={[
             styles.input,
-            { backgroundColor: palette.textbox, color: palette.text2 },
+            { backgroundColor: palette.textbox, color: palette.text },
           ]}
           onChangeText={setCoordinates}
           value={coordinates}
@@ -88,7 +95,7 @@ export function PostPlantModal({ setModalVisible }: PostPlantModalProp) {
         <TextInput
           style={[
             styles.multiline,
-            { backgroundColor: palette.textbox, color: palette.text2 },
+            { backgroundColor: palette.textbox, color: palette.text },
           ]}
           onChangeText={setBody}
           value={body}
