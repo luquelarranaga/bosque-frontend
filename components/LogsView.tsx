@@ -79,13 +79,12 @@ export default function LogsView({ logs, setLogs }: LogsViewProps) {
   return (
     <View style={styles.container}>
       <FlatList<PlantLog>
-        contentContainerStyle={[styles.logsList]}
         data={logs}
         numColumns={1}
         keyExtractor={(item) => item.log_id.toString()}
         renderItem={({ item }) => (
           <Swipeable renderRightActions={() => renderRightActions(item)}>
-            <View style={[styles.log, { backgroundColor: palette.tint2 }]}>
+            <View style={styles.log}>
               <Text
                 style={[
                   {
@@ -115,6 +114,7 @@ export default function LogsView({ logs, setLogs }: LogsViewProps) {
             </View>
           </Swipeable>
         )}
+        ItemSeparatorComponent={() => <View style={[styles.separator, {backgroundColor: palette.tint2}]} />}
       />
     </View>
   );
@@ -126,25 +126,16 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: 8,
     marginTop: "2.5%",
-    // paddingHorizontal: "5%",
-  },
-  logsList: {
-    // marginTop: "2.5%",
   },
   log: {
-    marginTop: "3%",
+    marginVertical: "3%",
     paddingVertical: "2%",
-    borderRadius: 5,
     paddingHorizontal: "3%",
-    // borderWidth: 1,
-    // borderColor: "black",
   },
   actionContainer: {
     flexDirection: "row",
     backgroundColor: "transparent",
     justifyContent: "center",
-    // borderWidth: 1,
-    // borderColor: "red",
     alignItems: "center",
     marginTop: "3%",
     paddingVertical: "2%",
@@ -156,5 +147,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     margin: 5,
+  },
+  separator: {
+    height: 1,
+    width: "95%",
+    backgroundColor: "gray",
+    alignSelf: "center",
   },
 });
