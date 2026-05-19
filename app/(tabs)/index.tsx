@@ -13,6 +13,9 @@ export default function HomeScreen() {
 
   const [modalVisible, setModalVisible] = useState(false);
 
+  const currentTime = new Date().getHours();
+  const greeting = currentTime < 12 ? "Buenos dias" : currentTime < 20 ? "Buenas tardes" : "Buenas noches";
+
   return (
     <SafeAreaProvider>
       <GradientBackground>
@@ -25,7 +28,7 @@ export default function HomeScreen() {
                 { color: palette.text },
               ]}
             >
-              Buenos dias, Bernardo
+              {greeting}, Bernardo
             </Text>
           </View>
           <View style={styles.addPlant}>
@@ -55,7 +58,7 @@ const styles = StyleSheet.create({
   },
   greeting: {
     marginTop: 40,
-    marginLeft: 40,
+    marginHorizontal: 30,
   },
   addPlant: {
     flex: 1,
