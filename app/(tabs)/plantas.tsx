@@ -1,9 +1,10 @@
 import { GradientBackground } from "@/components/GradientBackground";
 import { PlantImage } from "@/components/PlantImage";
+import { useTheme } from "@/hooks/use-theme";
 import axios from "axios";
 import { useFocusEffect } from "expo-router";
 import React, { useCallback, useState } from "react";
-import { FlatList, StyleSheet, TextInput, View } from "react-native";
+import { ActivityIndicator, FlatList, StyleSheet, TextInput, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 interface DisplayImage {
@@ -14,14 +15,17 @@ interface DisplayImage {
 }
 
 export default function Plantas() {
+  const { palette } = useTheme();
   const arrayholder = React.useRef<DisplayImage[]>([]);
 
   const [plantImages, setPlantImages] = useState<DisplayImage[]>([]);
   const [search, setSearch] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   useFocusEffect(
     useCallback(() => {
       async function getPlantImages() {
+        setIsLoading(true);
         try {
           const { data } = await axios<{ displayImages: DisplayImage[] }>(
             "https://bosque-comestible-backend.onrender.com/api/images/display_images",
@@ -31,6 +35,8 @@ export default function Plantas() {
           arrayholder.current = data.displayImages;
         } catch (err) {
           console.log(err);
+        } finally {
+          setIsLoading(false);
         }
       }
       getPlantImages();
@@ -44,6 +50,8 @@ export default function Plantas() {
     });
     setPlantImages(updatedData);
   };
+
+  if (isLoading) return <ActivityIndicator size="large" color={palette.tint} />;
 
   return (
     <SafeAreaProvider>
