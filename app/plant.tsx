@@ -2,6 +2,7 @@ import { Pressable, StyleSheet } from "react-native";
 
 import { DeletePlantModal } from "@/components/DeletePlantModal";
 import { GradientBackground } from "@/components/GradientBackground";
+import { PlantImageCarousel } from "@/components/PlantImageCarousel";
 import LogsView from "@/components/LogsView";
 import { PostLogModal } from "@/components/PostLogModal";
 import { IconSymbol } from "@/components/ui/icon-symbol";
@@ -9,7 +10,7 @@ import { useTheme } from "@/hooks/use-theme";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Image, Modal, Text, View } from "react-native";
+import { Modal, Text, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 interface Plant {
@@ -94,11 +95,7 @@ export default function Plant() {
           </Pressable>
 
           <View style={styles.safeArea}>
-            <Image
-              key={images[0].image_date}
-              source={{ uri: images[0].img_url }}
-              style={styles.plantImage}
-            />
+            <PlantImageCarousel images={images} />
 
             <LogsView logs={logs} setLogs={setLogs} />
             <Pressable
@@ -155,13 +152,6 @@ const styles = StyleSheet.create({
     height: 100,
     marginTop: "2.5%",
     borderRadius: 8,
-  },
-  plantImage: {
-    resizeMode: "cover",
-    width: "90%",
-    aspectRatio: 1,
-    borderRadius: 8,
-    marginTop: "2.5%",
   },
   button: {
     paddingHorizontal: "10%",
