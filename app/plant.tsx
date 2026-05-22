@@ -2,8 +2,8 @@ import { Pressable, StyleSheet } from "react-native";
 
 import { DeletePlantModal } from "@/components/DeletePlantModal";
 import { GradientBackground } from "@/components/GradientBackground";
-import { PlantImageCarousel } from "@/components/PlantImageCarousel";
 import LogsView from "@/components/LogsView";
+import { PlantImageCarousel } from "@/components/PlantImageCarousel";
 import { PostLogModal } from "@/components/PostLogModal";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { useTheme } from "@/hooks/use-theme";
@@ -16,7 +16,8 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 interface Plant {
   plant_id: number;
   species: string;
-  coordinates: string;
+  latitude: number;
+  longitude: number;
   created_at: Date;
 }
 
