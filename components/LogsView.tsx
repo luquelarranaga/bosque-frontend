@@ -74,10 +74,13 @@ export default function LogsView({ logs, setLogs }: LogsViewProps) {
     );
   };
 
-  if (isLoading) return <ActivityIndicator size="large" color={palette.tint} />;
-
   return (
     <View style={styles.container}>
+      {isLoading ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={palette.tint} />
+        </View>) :
+      (
       <FlatList<PlantLog>
         data={logs}
         numColumns={1}
@@ -115,7 +118,7 @@ export default function LogsView({ logs, setLogs }: LogsViewProps) {
           </Swipeable>
         )}
         ItemSeparatorComponent={() => <View style={[styles.separator, {backgroundColor: palette.tint2}]} />}
-      />
+      />)}
     </View>
   );
 }
@@ -154,4 +157,9 @@ const styles = StyleSheet.create({
     backgroundColor: "gray",
     alignSelf: "center",
   },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  }
 });
