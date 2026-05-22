@@ -51,11 +51,14 @@ export default function Plantas() {
     setPlantImages(updatedData);
   };
 
-  if (isLoading) return <ActivityIndicator size="large" color={palette.tint} />;
-
   return (
     <SafeAreaProvider>
       <GradientBackground>
+      {isLoading ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={palette.tint} />
+        </View>) :
+      (
         <SafeAreaView style={styles.safeArea}>
           <TextInput
             style={styles.searchBar}
@@ -75,6 +78,7 @@ export default function Plantas() {
             )}
           />
         </SafeAreaView>
+      )}
       </GradientBackground>
     </SafeAreaProvider>
   );
@@ -97,4 +101,9 @@ const styles = StyleSheet.create({
     marginRight: 30,
     marginTop: 50,
   },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  }
 });
