@@ -2,7 +2,8 @@ import axios from "axios";
 
 interface PlantPayload {
   species: string;
-  coordinates: string;
+  latitude: number;
+  longitude: number;
   body: string;
   images: string[];
 }
@@ -33,7 +34,8 @@ export const postPlant = async (data: PlantPayload) => {
 
     const finalPayload = {
       species: data.species,
-      coordinates: data.coordinates,
+      latitude: data.latitude,
+      longitude: data.longitude,
       body: data.body,
       img_url: uploadedUrls,
       created_at: new Date(),
