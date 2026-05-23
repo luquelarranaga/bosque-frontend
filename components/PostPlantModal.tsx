@@ -1,4 +1,5 @@
 import { ImagePickerList } from "@/components/ImagePickerList";
+import LocationPicker from "@/components/LocationPicker";
 import { useTheme } from "@/hooks/use-theme";
 import { postPlant } from "@/utils/postPlant";
 import React, { useState } from "react";
@@ -21,44 +22,46 @@ export function PostPlantModal({ setModalVisible }: PostPlantModalProp) {
   const { palette } = useTheme();
 
   const [species, setSpecies] = useState("");
-  const [coordinates, setCoordinates] = useState("");
   const [body, setBody] = useState("");
   const [images, setImages] = useState<string[]>([]);
+  const [latitude, setLatitude] = useState<number | null>(null);
+  const [longitude, setLongitude] = useState<number | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [selected, setSelected] = useState<boolean>(false);
+  const [selected, setSelected] = useState(false);
 
   const handlePostPlant = async () => {
-    if (!species || images.length === 0) {
-      alert("Por favor, añade una especie y al menos una foto.");
+    if (
+      !species ||
+      images.length === 0 ||
+      latitude === null ||
+      longitude === null
+    ) {
+      alert("Por favor, añade una especie, una ubicación y al menos una foto.");
       return;
     }
 
     setIsSubmitting(true);
     try {
-      await postPlant({ species, coordinates, body, images });
+      await postPlant({
+        species,
+        latitude,
+        longitude,
+        body,
+        images,
+      });
       alert("¡Planta guardada con éxito!");
-    } catch (error) {
+      setModalVisible(false);
+    } catch {
       alert("Hubo un error al guardar la planta.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  //self closing component
-  //contentContainerSTyle={}
-  //data=log
-  //numColumns={1} (is this necessary?)
-  //keyExtractor = {(item) => item.log_id.toString()}
-  //rendeerItem={({item}) => (INCLUDE EVERYTHING IN HERE !! )}
-
   return (
     <View style={styles.centeredView}>
       <View style={[styles.modal, { backgroundColor: palette.modal }]}>
-        <Pressable
-          onPress={() => {
-            setModalVisible(false);
-          }}
-        >
+        <Pressable onPress={() => setModalVisible(false)}>
           <Text
             style={{
               color: palette.text,
@@ -73,7 +76,12 @@ export function PostPlantModal({ setModalVisible }: PostPlantModalProp) {
         <TextInput
           style={[
             styles.input,
-            { backgroundColor: palette.textbox, color: palette.text },
+            {
+              backgroundColor: palette.textbox,
+              color: palette.text,
+              borderColor:
+                species.length === 0 ? palette.textboxBorder : palette.textOkay,
+            },
           ]}
           onChangeText={setSpecies}
           value={species}
@@ -81,21 +89,17 @@ export function PostPlantModal({ setModalVisible }: PostPlantModalProp) {
           placeholderTextColor={palette.placeholderText}
         />
 
-        <TextInput
-          style={[
-            styles.input,
-            { backgroundColor: palette.textbox, color: palette.text },
-          ]}
-          onChangeText={setCoordinates}
-          value={coordinates}
-          placeholder="coordinados"
-          placeholderTextColor={palette.placeholderText}
-        />
+        <LocationPicker setLatitude={setLatitude} setLongitude={setLongitude} />
 
         <TextInput
           style={[
             styles.multiline,
-            { backgroundColor: palette.textbox, color: palette.text },
+            {
+              backgroundColor: palette.textbox,
+              color: palette.text,
+              borderColor:
+                species.length === 0 ? palette.textboxBorder : palette.textOkay,
+            },
           ]}
           onChangeText={setBody}
           value={body}
@@ -146,7 +150,7 @@ const styles = StyleSheet.create({
   },
   modal: {
     alignItems: "center",
-    width: "85%",
+    width: "95%",
     margin: 50,
     borderRadius: 5,
     paddingTop: 10,
@@ -159,6 +163,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
     paddingVertical: 12,
+    borderWidth: 1,
   },
   multiline: {
     height: 170,
@@ -168,6 +173,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
     paddingVertical: 5,
+    borderWidth: 1,
   },
   imagePickerContainer: {
     flexDirection: "row",
@@ -175,21 +181,14 @@ const styles = StyleSheet.create({
     width: "90%",
     alignContent: "center",
   },
-  container: {
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    borderRadius: 5,
-    marginTop: 5,
-  },
   buttonText: {
     fontSize: 15,
-    padding: 0,
     alignSelf: "center",
     paddingVertical: 5,
     paddingHorizontal: 10,
     borderRadius: 5,
     marginTop: 5,
-    marginBottom: 15,
+    // marginBottom: 15,
   },
   imagePreviewContainer: {
     width: "90%",
@@ -202,5 +201,17 @@ const styles = StyleSheet.create({
     height: 40,
     marginHorizontal: 5,
     borderRadius: 8,
+  },
+  locationSection: {
+    width: "90%",
+    marginVertical: 5,
+  },
+  location: {
+    flexDirection: "row",
+    alignItems: "center",
+    // gap: 8,
+  },
+  mapWrapper: {
+    marginTop: 8,
   },
 });
