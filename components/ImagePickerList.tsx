@@ -31,7 +31,7 @@ export function ImagePickerList({
   };
 
   return (
-    <View style={[styles.container]}>
+    <View>
       <Pressable onPress={pickImage}>
         <Text
           style={[
@@ -47,12 +47,8 @@ export function ImagePickerList({
 }
 
 const styles = StyleSheet.create({
-  container: {
-    // height: 100,
-  },
   buttonText: {
     fontSize: 15,
-    padding: 0,
     alignSelf: "center",
     paddingVertical: 5,
     paddingHorizontal: 10,
