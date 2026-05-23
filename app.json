@@ -26,6 +26,12 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Permite a Bosque usar tu ubicación para registrar plantas en el mapa."
+        }
+      ],
       "expo-router",
       [
         "expo-splash-screen",
