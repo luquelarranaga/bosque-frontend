@@ -6,7 +6,6 @@ import { IconSymbol } from "@/components/ui/icon-symbol";
 import { useTheme } from "@/hooks/use-theme";
 
 export default function TabLayout() {
-  // const colorScheme = useColorScheme();
   const { palette, colorScheme } = useTheme();
 
   return (
