@@ -5,6 +5,7 @@ import { GradientBackground } from "@/components/GradientBackground";
 import { useTheme } from "@/hooks/use-theme";
 import axios from "axios";
 import { useState } from "react";
+import { View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
@@ -38,39 +39,41 @@ export default function Map() {
 
   return (
     <SafeAreaProvider>
-      {isLoading ? (
-        <GradientBackground>
-          <ActivityIndicator size="large" color={palette.tint} />
-        </GradientBackground>
-      ) : (
-        <MapView
-          style={styles.map}
-          initialRegion={{
-            latitude: 38.13108,
-            longitude: -4.776098,
-            latitudeDelta: 0.002,
-            longitudeDelta: 0.001,
-          }}
-          mapType="satellite"
-        >
-          {markers.map((marker) => {
-            return (
-              <Marker
-                key={markers.indexOf(marker)}
-                coordinate={{
-                  latitude: marker.latitude,
-                  longitude: marker.longitude,
-                }}
-              >
-                <Image
-                  source={require("@/assets/images/3D-tree.png")}
-                  style={styles.marker}
-                />
-              </Marker>
-            );
-          })}
-        </MapView>
-      )}
+      <GradientBackground>
+        {isLoading ? (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color={palette.tint} />
+          </View>
+        ) : (
+          <MapView
+            style={styles.map}
+            initialRegion={{
+              latitude: 38.13108,
+              longitude: -4.776098,
+              latitudeDelta: 0.002,
+              longitudeDelta: 0.001,
+            }}
+            mapType="satellite"
+          >
+            {markers.map((marker) => {
+              return (
+                <Marker
+                  key={markers.indexOf(marker)}
+                  coordinate={{
+                    latitude: marker.latitude,
+                    longitude: marker.longitude,
+                  }}
+                >
+                  <Image
+                    source={require("@/assets/images/3D-tree.png")}
+                    style={styles.marker}
+                  />
+                </Marker>
+              );
+            })}
+          </MapView>
+        )}
+      </GradientBackground>
     </SafeAreaProvider>
   );
 }
@@ -80,7 +83,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   marker: {
-    width: 40,
-    height: 40,
+    width: 70,
+    height: 70,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
