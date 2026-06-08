@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet } from "react-native";
+import { ActivityIndicator, Pressable, StyleSheet } from "react-native";
 
 import { DeletePlantModal } from "@/components/DeletePlantModal";
 import { GradientBackground } from "@/components/GradientBackground";
@@ -53,9 +53,11 @@ export default function Plant() {
   const [logs, setLogs] = useState<PlantLogs[]>([]);
   const [postLogVisible, setPostLogVisible] = useState<boolean>(false);
   const [deletePlantVisible, setDeletePlantVisible] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function getPlant() {
+      setIsLoading(true);
       try {
         const [plantRes, imageRes, plantLogs] = await Promise.all([
           axios<{ plant: Plant }>(
@@ -77,12 +79,26 @@ export default function Plant() {
         setLogs(logs);
       } catch (err) {
         console.log(err);
+      } finally {
+        setIsLoading(false);
       }
     }
     getPlant();
-  }, [logs]);
+  }, [plantId]);
 
-  if (images && plant) {
+  if (isLoading) {
+    return (
+      <SafeAreaProvider>
+        <GradientBackground>
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color={palette.tint} />
+          </View>
+        </GradientBackground>
+      </SafeAreaProvider>
+    );
+  }
+
+  if (plant) {
     return (
       <SafeAreaProvider>
         <GradientBackground>
@@ -144,6 +160,11 @@ export default function Plant() {
 }
 
 const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   safeArea: {
     flex: 1,
     alignSelf: "center",
