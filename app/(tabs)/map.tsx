@@ -1,40 +1,42 @@
-import { useEffect } from "react";
-import { ActivityIndicator, Image, StyleSheet } from "react-native";
+import { useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  Image,
+  Modal,
+  Pressable,
+  StyleSheet,
+  View,
+} from "react-native";
 
 import { GradientBackground } from "@/components/GradientBackground";
+import { MapPlant, PlantMapModal } from "@/components/PlantMapModal";
 import { useTheme } from "@/hooks/use-theme";
 import axios from "axios";
-import { useState } from "react";
-import { View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-interface PlantLocation {
-  latitude: number;
-  longitude: number;
-}
-
 export default function Map() {
   const { palette } = useTheme();
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [markers, setMarkers] = useState<PlantLocation[]>([]);
+  const [plants, setPlants] = useState<MapPlant[]>([]);
+  const [selectedPlant, setSelectedPlant] = useState<MapPlant | null>(null);
 
   useEffect(() => {
-    setIsLoading(true);
-    async function getLocations() {
+    async function getPlants() {
+      setIsLoading(true);
       try {
-        const { data } = await axios<any>(
-          "https://bosque-comestible-backend.onrender.com/api/plants/locations",
+        const { data } = await axios<{ plants: MapPlant[] }>(
+          "https://bosque-comestible-backend.onrender.com/api/plants",
         );
-        const { locations } = data;
-        setMarkers(locations);
+        setPlants(data.plants);
       } catch (err) {
         console.log(err);
       } finally {
         setIsLoading(false);
       }
     }
-    getLocations();
+    getPlants();
   }, []);
 
   return (
@@ -55,24 +57,40 @@ export default function Map() {
             }}
             mapType="satellite"
           >
-            {markers.map((marker) => {
-              return (
-                <Marker
-                  key={markers.indexOf(marker)}
-                  coordinate={{
-                    latitude: marker.latitude,
-                    longitude: marker.longitude,
-                  }}
-                >
+            {plants.map((plant) => (
+              <Marker
+                key={plant.plant_id}
+                coordinate={{
+                  latitude: plant.latitude,
+                  longitude: plant.longitude,
+                }}
+                tracksViewChanges={false}
+              >
+                <Pressable onPress={() => setSelectedPlant(plant)}>
                   <Image
                     source={require("@/assets/images/3D-tree.png")}
                     style={styles.marker}
                   />
-                </Marker>
-              );
-            })}
+                </Pressable>
+              </Marker>
+            ))}
           </MapView>
         )}
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={selectedPlant !== null}
+          onRequestClose={() => setSelectedPlant(null)}
+        >
+          {selectedPlant && (
+            <PlantMapModal
+              plant={selectedPlant}
+              setModalVisible={(visible) => {
+                if (!visible) setSelectedPlant(null);
+              }}
+            />
+          )}
+        </Modal>
       </GradientBackground>
     </SafeAreaProvider>
   );
