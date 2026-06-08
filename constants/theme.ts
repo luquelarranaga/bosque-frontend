@@ -85,6 +85,11 @@ export const Typography: Record<string, TypographyStyle> = {
     fontFamily: "Inter",
     lineHeight: 20,
   },
+  labelHeading: {
+    fontSize: 30,
+    fontFamily: "Ovo",
+    lineHeight: 30,
+  },
   label: {
     fontSize: 20,
     fontFamily: "Inter",
