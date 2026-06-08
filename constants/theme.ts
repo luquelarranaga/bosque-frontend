@@ -25,6 +25,8 @@ export interface ThemePalette {
   tabBar: string;
   modal: string;
   textbox: string;
+  textboxBorder: string;
+  textOkay: string;
   button: string;
   placeholderText: string;
 }
@@ -104,30 +106,34 @@ const LightModePalette: ThemePalette = {
   tabIconDefault: "#8f8f8f",
   tabIconSelected: "#213221",
   tabBar: "#FFFFFFA6",
-  modal: "#ffffffdc",
+  modal: "#ffffffec",
   textbox: "#ffffff",
+  textboxBorder: "#d4d2d2",
+  textOkay: "#6e9c49",
   button: "#bdcbbd",
   placeholderText: "#757272a6",
 };
 
 const DarkModePalette: ThemePalette = {
   text: "#D4EEDB",
-  text2: "#141d14",
-  background: "#2B3525",
+  text2: "#1a241a",
+  background: "#232e1f",
   backgroundGradient: {
-    start: "#2B3525",
-    end: "#0E190E",
+    start: "#232e1f",
+    end: "#0c1409",
     angle: 270,
   },
-  tint: "#0a7ea4",
-  tint2: "#0f4759",
-  tabIconDefault: "#607260",
-  tabIconSelected: "#141d14",
-  tabBar: "#d4eedbad",
+  tint: "#4e8c4e",
+  tint2: "#395c39",
+  tabIconDefault: "#526852",
+  tabIconSelected: "#a8d4a8",
+  tabBar: "#1e2b1ecc",
   modal: "#101210",
-  textbox: "#d4eedbad",
-  button: "#57625aad",
-  placeholderText: "#4c594c",
+  textbox: "#2a3828",
+  textboxBorder: "#3d4e3a",
+  textOkay: "#b6eb8a",
+  button: "#3a4e3acc",
+  placeholderText: "#6a826a99",
 };
 
 export function getThemePalette(colorMode: ThemeMode): ThemePalette {
